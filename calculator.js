@@ -15,6 +15,8 @@ window.addEventListener("DOMContentLoaded", function () {
         }
 
         var quantityStr = quantityInput.value.trim();
+        
+        // Регулярное выражение: строго целое положительное число
         var isPositiveInteger = /^\d+$/.test(quantityStr) && parseInt(quantityStr, 10) > 0;
 
         if (!isPositiveInteger) {
@@ -35,29 +37,21 @@ window.addEventListener("DOMContentLoaded", function () {
         return false;
     }
 
-    // Первичный расчет при загрузке
+    // Первичный расчет при загрузке страницы
     calculateTotal();
 
-    // Пересчет при клике на кнопку
+    // Пересчет по клику на кнопку
     if (calcButton) {
         calcButton.addEventListener("click", calculateTotal);
     }
 
-    // Пересчет прямо во время ввода текста в поле
+    // Пересчет только по нажатию Enter в поле ввода (без мгновенного реагирования на каждый символ)
     if (quantityInput) {
-        quantityInput.addEventListener("input", calculateTotal);
-        
-        // Предотвращаем перезагрузку страницы при нажатии Enter в поле ввода
         quantityInput.addEventListener("keydown", function (event) {
             if (event.key === "Enter") {
                 event.preventDefault();
                 calculateTotal(event);
             }
         });
-    }
-
-    // Пересчет при смене товара в выпадающем списке
-    if (productSelect) {
-        productSelect.addEventListener("change", calculateTotal);
     }
 });
