@@ -1,0 +1,14 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+#quantity-input.is-invalid {
+    border-color: #dc3545;
+    background-color: #f8d7da;
+}
