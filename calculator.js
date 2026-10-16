@@ -10,7 +10,12 @@ window.addEventListener("DOMContentLoaded", function () {
     var errorMessage = document.getElementById("error-message");
 
     // Функция подсчета стоимости
-    function calculateTotal() {
+    function calculateTotal(event) {
+        // Предотвращаем отправку формы / перезагрузку страницы, если кнопка внутри формы
+        if (event) {
+            event.preventDefault();
+        }
+
         var quantityStr = quantityInput.value.trim();
         
         // Регулярное выражение: строго целое положительное число (без букв, знаков и дробей)
@@ -21,10 +26,10 @@ window.addEventListener("DOMContentLoaded", function () {
             errorMessage.classList.remove("d-none");
             quantityInput.classList.add("is-invalid");
             resultValue.textContent = "0";
-            return;
+            return false;
         }
 
-        // Если валидация прошла успешно
+        // Если валидация прошла успешно, убираем ошибку
         errorMessage.classList.add("d-none");
         quantityInput.classList.remove("is-invalid");
 
@@ -32,8 +37,13 @@ window.addEventListener("DOMContentLoaded", function () {
         var quantity = parseInt(quantityStr, 10);
         var total = price * quantity;
 
+        // Выводим результат с разделителями тысяч
         resultValue.textContent = total.toLocaleString("ru-RU");
+        return false;
     }
+
+    // Выполняем расчет сразу при загрузке страницы для значения по умолчанию
+    calculateTotal();
 
     // Навешиваем событие клика на кнопку расчета
     if (calcButton) {
